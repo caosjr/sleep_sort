@@ -15,7 +15,7 @@
 
 -- PROGRAM		"Quartus II 64-Bit"
 -- VERSION		"Version 14.1.0 Build 186 12/03/2014 SJ Full Version"
--- CREATED		"Sun Jun 02 03:30:06 2019"
+-- CREATED		"Mon Jun  3 14:29:03 2019"
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.all; 
@@ -26,13 +26,7 @@ ENTITY display7seg IS
 	PORT
 	(
 		data :  IN  STD_LOGIC_VECTOR(3 DOWNTO 0);
-		g :  OUT  STD_LOGIC;
-		f :  OUT  STD_LOGIC;
-		e :  OUT  STD_LOGIC;
-		d :  OUT  STD_LOGIC;
-		c :  OUT  STD_LOGIC;
-		b :  OUT  STD_LOGIC;
-		a :  OUT  STD_LOGIC
+		output :  OUT  STD_LOGIC_VECTOR(6 DOWNTO 0)
 	);
 END display7seg;
 
@@ -51,7 +45,7 @@ COMPONENT \16dmux_0\
 		 Q11 : OUT STD_LOGIC;
 		 Q9 : OUT STD_LOGIC;
 		 Q10 : OUT STD_LOGIC;
-		 Q8 : OUT STD_LOGIC;
+		 Q7 : OUT STD_LOGIC;
 		 Q4 : OUT STD_LOGIC;
 		 Q5 : OUT STD_LOGIC;
 		 Q6 : OUT STD_LOGIC;
@@ -65,6 +59,7 @@ END COMPONENT;
 ATTRIBUTE black_box OF \16dmux_0\: COMPONENT IS true;
 ATTRIBUTE noopt OF \16dmux_0\: COMPONENT IS true;
 
+SIGNAL	output_ALTERA_SYNTHESIZED :  STD_LOGIC_VECTOR(6 DOWNTO 0);
 SIGNAL	q0 :  STD_LOGIC;
 SIGNAL	q1 :  STD_LOGIC;
 SIGNAL	q10 :  STD_LOGIC;
@@ -81,23 +76,25 @@ SIGNAL	q6 :  STD_LOGIC;
 SIGNAL	q7 :  STD_LOGIC;
 SIGNAL	q8 :  STD_LOGIC;
 SIGNAL	q9 :  STD_LOGIC;
+SIGNAL	SYNTHESIZED_WIRE_0 :  STD_LOGIC;
 
 
 BEGIN 
+SYNTHESIZED_WIRE_0 <= '0';
 
 
 
 b2v_inst : 16dmux_0
-PORT MAP(C => data(1),
-		 B => data(2),
-		 A => data(3),
-		 D => data(0),
+PORT MAP(C => data(2),
+		 B => data(1),
+		 A => data(0),
+		 D => data(3),
 		 Q12 => q12,
 		 Q13 => q13,
 		 Q11 => q11,
 		 Q9 => q9,
 		 Q10 => q10,
-		 Q8 => q8,
+		 Q7 => q7,
 		 Q4 => q4,
 		 Q5 => q5,
 		 Q6 => q6,
@@ -109,25 +106,27 @@ PORT MAP(C => data(1),
 		 Q1 => q1);
 
 
-g <= q15 OR q8 OR q12 OR q14;
+
+output_ALTERA_SYNTHESIZED(6) <= q0 OR q7 OR q12 OR q1;
 
 
-f <= q14 OR q12 OR q13 OR q8 OR q5 OR q2;
+output_ALTERA_SYNTHESIZED(5) <= q1 OR q3 OR q2 OR q7 OR q10 OR q13;
 
 
-e <= q14 OR q11 OR q12 OR q10 OR q8 OR q6;
+output_ALTERA_SYNTHESIZED(4) <= q1 OR q4 OR q3 OR q5 OR q7 OR q9;
 
 
-d <= q14 OR q8 OR q0 OR q11;
+output_ALTERA_SYNTHESIZED(3) <= q1 OR q7 OR q15 OR q4;
 
 
-c <= q13 OR q1 OR q0 OR q3;
+output_ALTERA_SYNTHESIZED(2) <= q2 OR q14 OR q15 OR q12;
 
 
-b <= q10 OR q4 OR q9 OR q3 OR q1 OR q0;
+output_ALTERA_SYNTHESIZED(1) <= q5 OR q11 OR q6 OR q12 OR q15 OR SYNTHESIZED_WIRE_0;
 
 
-a <= q14 OR q4 OR q2 OR q11;
+output_ALTERA_SYNTHESIZED(0) <= q1 OR q11 OR q13 OR q4;
 
+output <= output_ALTERA_SYNTHESIZED;
 
 END bdf_type;
