@@ -13,21 +13,21 @@ end sleep_sort;
 architecture algorithm of sleep_sort is
 begin
     sleep : process(clk)
-	variable clock_pulse : std_logic_vector(3 downto 0) := (others => '0');
-	variable used			 : std_logic := '0';
+	variable clock_pulse	: std_logic_vector(3 downto 0) := (others => '0');
+	variable used		: std_logic := '0';
     begin
     	if (rising_edge(clk)) then
         	if (reset = '1') then
-			ready 		<= '0';
-			clock_pulse := (others => '0');
+			ready		<= '0';
+			clock_pulse	:= (others => '0');
 		elsif (clock_pulse < data) then
 			clock_pulse 	:= std_logic_vector(unsigned(clock_pulse) + 1);
 		else
 			if (used = '0') then
-				ready <= '1';
+				ready	<= '1';
 				used 	:= '1';
 			else
-				ready <= '0';
+				ready	<= '0';
 			end if;
 		end if;
 	end if;
